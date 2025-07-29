@@ -7,87 +7,25 @@ import { Badge } from '@/components/ui/badge'
 import { CheckCircle, XCircle, MapPin, Phone, Calendar, User } from 'lucide-react'
 import { useAppDispatch, useAppSelector } from '@/stores/store'
 import { fetchVenueApplications, setSelectedApplication, rejectVenueApplication } from '@/stores/slices/venueSlice'
-import { VenueApplication, VenueCategoryType, VenueApprovalStatus, UserStatus, UserGenderType, PartnerType, MapWarningIconType } from '@/types'
+import { VenueApplication, VenueCategoryType, VenueApprovalStatus } from '@/types'
 import { VenueApprovalDialog } from './venue-approval-dialog'
 import { 
   VENUE_CATEGORY_LABELS, 
   VENUE_APPROVAL_STATUS_LABELS, 
   VENUE_APPROVAL_STATUS_STYLES 
 } from '@/shared/constants/venue.constants'
+import { mockVenueApplications } from '@/shared/mocks/venue-applications.mock'
 
-// Mock data for demonstration
-const mockApplications: VenueApplication[] = [
-  {
-    id: '1',
-    name: '寵物友善餐廳 - 毛小孩樂園',
-    address: '忠孝東路四段123號',
-    cityCode: 'TPE',
-    districtCode: 'DA',
-    petFriendlyLevel: 5,
-    categoryType: VenueCategoryType.Restaurant,
-    approvalStatus: VenueApprovalStatus.Pending,
-    createdAt: new Date('2025-01-28'),
-    createdBy: 'user123',
-    applicantUser: {
-      id: 'user123',
-      name: '王小明',
-      email: 'wang@example.com',
-      loginMethod: 'google',
-      deviceInfo: {
-        platform: 'iOS',
-        version: '17.0',
-        deviceId: 'device123'
-      },
-      registeredAt: new Date('2024-12-01'),
-      status: UserStatus.Verified,
-      genderType: UserGenderType.Male,
-      partnerType: PartnerType.Dog,
-      mapWarningIconType: MapWarningIconType.SurprisedPoop,
-      isDeleted: false,
-      createdAt: new Date('2024-12-01'),
-      updatedAt: new Date('2024-12-01'),
-      commentCount: 15,
-      reportCount: 0
-    }
-  },
-  {
-    id: '2', 
-    name: '愛心動物醫院',
-    address: '松仁路88號',
-    cityCode: 'TPE',
-    districtCode: 'XY',
-    petFriendlyLevel: 4,
-    categoryType: VenueCategoryType.Hospital,
-    approvalStatus: VenueApprovalStatus.Pending,
-    createdAt: new Date('2025-01-27'),
-    createdBy: 'user456',
-    applicantUser: {
-      id: 'user456',
-      name: '李美玲',
-      email: 'lee@example.com',
-      loginMethod: 'line',
-      deviceInfo: {
-        platform: 'Android',
-        version: '14',
-        deviceId: 'device456'
-      },
-      registeredAt: new Date('2024-11-15'),
-      status: UserStatus.Verified,
-      genderType: UserGenderType.Male,
-      partnerType: PartnerType.Dog,
-      mapWarningIconType: MapWarningIconType.SurprisedPoop,
-      isDeleted: false,
-      createdAt: new Date('2024-12-01'),
-      updatedAt: new Date('2024-12-01'),
-      commentCount: 23,
-      reportCount: 0
-    }
+interface PendingShopListProps {
+  filters?: {
+    search: string
+    categoryType?: VenueCategoryType
   }
-]
+}
 
-export function PendingShopList() {
+export function PendingShopList({ filters }: PendingShopListProps) {
   const dispatch = useAppDispatch()
-  const { applications, loading } = useAppSelector(state => state.venue)
+  const { loading } = useAppSelector(state => state.venue)
   const [isApprovalDialogOpen, setIsApprovalDialogOpen] = useState(false)
   const [selectedForApproval, setSelectedForApproval] = useState<VenueApplication | null>(null)
 
@@ -112,14 +50,41 @@ export function PendingShopList() {
     }
   }
 
-  // Use mock data for now
-  const displayApplications = mockApplications
+  // Filter applications based on filters
+  const filteredApplications = mockVenueApplications.filter((app: VenueApplication) => {
+    // 搜尋篩選
+    if (filters?.search) {
+      const searchLower = filters.search.toLowerCase()
+      const nameMatch = app.name.toLowerCase().includes(searchLower)
+      const addressMatch = app.address.toLowerCase().includes(searchLower)
+      const userMatch = app.applicantUser?.name?.toLowerCase().includes(searchLower)
+      
+      if (!nameMatch && !addressMatch && !userMatch) {
+        return false
+      }
+    }
+    
+    // 類型篩選
+    if (filters?.categoryType !== undefined && app.categoryType !== filters.categoryType) {
+      return false
+    }
+    
+    return true
+  })
+
+  // Use filtered data
+  const displayApplications = filteredApplications
 
   return (
     <>
       <Card>
         <CardHeader>
-          <CardTitle>待審核店家列表</CardTitle>
+          <CardTitle className="flex items-center justify-between">
+            <span>待審核店家列表</span>
+            <Badge variant="outline">
+              共 {displayApplications.length} 筆資料
+            </Badge>
+          </CardTitle>
         </CardHeader>
         <CardContent>
           {loading ? (
@@ -131,7 +96,7 @@ export function PendingShopList() {
             </div>
           ) : (
             <div className="space-y-4">
-              {displayApplications.map((application) => (
+              {displayApplications.map((application: VenueApplication) => (
                 <div key={application.id} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
                   <div className="flex justify-between items-start mb-3">
                     <div>

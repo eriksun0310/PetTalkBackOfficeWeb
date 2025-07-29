@@ -1,7 +1,21 @@
+"use client"
+
+import { useState } from 'react'
 import { PendingShopList } from '@/components/shops/pending-shop-list'
 import { PendingShopFilters } from '@/components/shops/pending-shop-filters'
+import { VenueCategoryType } from '@/types'
+
+interface PendingFilters {
+  search: string
+  categoryType?: VenueCategoryType
+}
 
 export default function PendingShopsPage() {
+  const [filters, setFilters] = useState<PendingFilters>({
+    search: '',
+    categoryType: undefined
+  })
+
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
@@ -15,8 +29,8 @@ export default function PendingShopsPage() {
         </div>
       </div>
       
-      <PendingShopFilters />
-      <PendingShopList />
+      <PendingShopFilters onFiltersChange={setFilters} />
+      <PendingShopList filters={filters} />
     </div>
   )
 }

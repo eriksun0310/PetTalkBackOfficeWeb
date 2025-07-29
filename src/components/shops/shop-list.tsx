@@ -29,20 +29,6 @@ export function ShopList() {
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
 
-  // Check if user has permission to view shops
-  if (!checkPermission('shops.read')) {
-    return (
-      <Card>
-        <CardContent className="p-6">
-          <div className="text-center text-gray-500">
-            <div className="text-4xl mb-2">🔒</div>
-            <p>您沒有權限查看店家資料</p>
-          </div>
-        </CardContent>
-      </Card>
-    )
-  }
-
   // Load venues on component mount and when filters change
   useEffect(() => {
     dispatch(fetchVenues({ 
@@ -94,6 +80,20 @@ export function ShopList() {
 
   const truncateText = (text: string, maxLength: number) => {
     return text.length > maxLength ? `${text.substring(0, maxLength)}...` : text
+  }
+
+  // Check if user has permission to view shops
+  if (!checkPermission('shops.read')) {
+    return (
+      <Card>
+        <CardContent className="p-6">
+          <div className="text-center text-gray-500">
+            <div className="text-4xl mb-2">🔒</div>
+            <p>您沒有權限查看店家資料</p>
+          </div>
+        </CardContent>
+      </Card>
+    )
   }
 
   if (error) {
