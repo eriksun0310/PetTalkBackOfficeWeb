@@ -21,6 +21,7 @@ interface VenueEditDialogProps {
   isOpen: boolean
   onClose: () => void
   venue: Venue | null
+  onSuccess?: () => void
 }
 
 interface FormData {

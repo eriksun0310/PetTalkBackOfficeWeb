@@ -174,7 +174,7 @@ export interface VenueApplication {
   address: string
   cityCode: string
   districtCode: string
-  petFriendlyLevel: number // 1-5
+  petFriendlyLevel: PetFriendlyLevel
   categoryType: VenueCategoryType
   approvalStatus: VenueApprovalStatus
   approvedVenueId?: string

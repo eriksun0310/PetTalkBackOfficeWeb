@@ -13,6 +13,7 @@ import { format } from 'date-fns'
 import { zhTW } from 'date-fns/locale'
 import { VenueEditDialog } from './venue-edit-dialog'
 import { VenueDeleteDialog } from './venue-delete-dialog'
+import { VenueDetailDialog } from './venue-detail-dialog'
 import { useAuth } from '@/hooks/use-auth'
 import { 
   VENUE_CATEGORY_LABELS, 
@@ -26,8 +27,10 @@ export function ShopList() {
   const { checkPermission } = useAuth()
   const [selectedVenueForEdit, setSelectedVenueForEdit] = useState<Venue | null>(null)
   const [selectedVenueForDelete, setSelectedVenueForDelete] = useState<Venue | null>(null)
+  const [selectedVenueForDetail, setSelectedVenueForDetail] = useState<Venue | null>(null)
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
+  const [isDetailDialogOpen, setIsDetailDialogOpen] = useState(false)
 
   // Load venues on component mount and when filters change
   useEffect(() => {
@@ -67,6 +70,34 @@ export function ShopList() {
 
   const handleDeleteSuccess = () => {
     // Refresh venues list after successful deletion
+    dispatch(fetchVenues({ 
+      page: pagination.page, 
+      limit: pagination.limit, 
+      filters 
+    }))
+  }
+
+  const handleViewDetail = (venue: Venue) => {
+    setSelectedVenueForDetail(venue)
+    setIsDetailDialogOpen(true)
+  }
+
+  const handleDetailDialogClose = () => {
+    setIsDetailDialogOpen(false)
+    setSelectedVenueForDetail(null)
+  }
+
+  const handleDetailEditSuccess = () => {
+    // Refresh venues list after edit
+    dispatch(fetchVenues({ 
+      page: pagination.page, 
+      limit: pagination.limit, 
+      filters 
+    }))
+  }
+
+  const handleDetailDeleteSuccess = () => {
+    // Refresh venues list after delete
     dispatch(fetchVenues({ 
       page: pagination.page, 
       limit: pagination.limit, 
@@ -152,7 +183,11 @@ export function ShopList() {
                 </TableHeader>
                 <TableBody>
                   {venues.map((venue) => (
-                    <TableRow key={venue.id}>
+                    <TableRow 
+                      key={venue.id}
+                      className="cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800"
+                      onClick={() => handleViewDetail(venue)}
+                    >
                       <TableCell>
                         {venue.mainImage ? (
                           <img
@@ -196,7 +231,16 @@ export function ShopList() {
                         {format(new Date(venue.createdAt), 'yyyy/MM/dd HH:mm', { locale: zhTW })}
                       </TableCell>
                       <TableCell className="text-right">
-                        <div className="flex items-center justify-end gap-2">
+                        <div className="flex items-center justify-end gap-2" onClick={(e) => e.stopPropagation()}>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => handleViewDetail(venue)}
+                            className="h-8 w-8 p-0"
+                            title="查看詳情"
+                          >
+                            <Eye className="h-4 w-4" />
+                          </Button>
                           {checkPermission('shops.write') && (
                             <Button
                               variant="outline"
@@ -217,17 +261,6 @@ export function ShopList() {
                               title="刪除店家"
                             >
                               <Trash2 className="h-4 w-4" />
-                            </Button>
-                          )}
-                          {!checkPermission('shops.write') && !checkPermission('shops.delete') && (
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              onClick={() => {/* View only */}}
-                              className="h-8 w-8 p-0"
-                              title="查看店家詳情"
-                            >
-                              <Eye className="h-4 w-4" />
                             </Button>
                           )}
                         </div>
@@ -311,6 +344,23 @@ export function ShopList() {
           isOpen={isEditDialogOpen}
           onClose={handleEditDialogClose}
           venue={selectedVenueForEdit}
+          onSuccess={() => {
+            // Refresh venues list after edit
+            dispatch(fetchVenues({ 
+              page: pagination.page, 
+              limit: pagination.limit, 
+              filters 
+            }))
+          }}
+        />
+
+        {/* Detail Dialog */}
+        <VenueDetailDialog
+          isOpen={isDetailDialogOpen}
+          onClose={handleDetailDialogClose}
+          venue={selectedVenueForDetail}
+          onEditSuccess={handleDetailEditSuccess}
+          onDeleteSuccess={handleDetailDeleteSuccess}
         />
       </CardContent>
     </Card>

@@ -1,4 +1,4 @@
-import { VenueApplication, VenueCategoryType, VenueApprovalStatus, UserStatus, UserGenderType, PartnerType, MapWarningIconType } from '@/types'
+import { VenueApplication, VenueCategoryType, VenueApprovalStatus, UserStatus, UserGenderType, PartnerType, MapWarningIconType, PetFriendlyLevel } from '@/types'
 
 export const mockVenueApplications: VenueApplication[] = [
   {
@@ -7,7 +7,7 @@ export const mockVenueApplications: VenueApplication[] = [
     address: '台北市大安區忠孝東路四段123號',
     cityCode: 'TPE',
     districtCode: 'DA',
-    petFriendlyLevel: 5,
+    petFriendlyLevel: PetFriendlyLevel.High,
     categoryType: VenueCategoryType.Restaurant,
     approvalStatus: VenueApprovalStatus.Pending,
     createdAt: '2025-01-28T00:00:00.000Z',
@@ -41,7 +41,7 @@ export const mockVenueApplications: VenueApplication[] = [
     address: '台北市信義區信義路五段789號',
     cityCode: 'TPE',
     districtCode: 'XY',
-    petFriendlyLevel: 5,
+    petFriendlyLevel: PetFriendlyLevel.High,
     categoryType: VenueCategoryType.Hospital,
     approvalStatus: VenueApprovalStatus.Pending,
     createdAt: '2025-01-27T00:00:00.000Z',
@@ -75,7 +75,7 @@ export const mockVenueApplications: VenueApplication[] = [
     address: '台北市松山區南京東路三段256號',
     cityCode: 'TPE',
     districtCode: 'SS',
-    petFriendlyLevel: 5,
+    petFriendlyLevel: PetFriendlyLevel.High,
     categoryType: VenueCategoryType.Beauty,
     approvalStatus: VenueApprovalStatus.Pending,
     createdAt: '2025-01-26T00:00:00.000Z',
@@ -109,7 +109,7 @@ export const mockVenueApplications: VenueApplication[] = [
     address: '新北市板橋區文化路二段458號',
     cityCode: 'NTC',
     districtCode: 'BQ',
-    petFriendlyLevel: 5,
+    petFriendlyLevel: PetFriendlyLevel.High,
     categoryType: VenueCategoryType.Hotel,
     approvalStatus: VenueApprovalStatus.Pending,
     createdAt: '2025-01-25T00:00:00.000Z',
@@ -143,7 +143,7 @@ export const mockVenueApplications: VenueApplication[] = [
     address: '台北市中山區民生東路二段88號',
     cityCode: 'TPE',
     districtCode: 'ZS',
-    petFriendlyLevel: 4,
+    petFriendlyLevel: PetFriendlyLevel.Medium,
     categoryType: VenueCategoryType.Restaurant,
     approvalStatus: VenueApprovalStatus.Pending,
     createdAt: '2025-01-24T00:00:00.000Z',
@@ -177,7 +177,7 @@ export const mockVenueApplications: VenueApplication[] = [
     address: '台中市西區台灣大道二段309號',
     cityCode: 'TXG',
     districtCode: 'XQ',
-    petFriendlyLevel: 5,
+    petFriendlyLevel: PetFriendlyLevel.High,
     categoryType: VenueCategoryType.Hospital,
     approvalStatus: VenueApprovalStatus.Pending,
     createdAt: '2025-01-23T00:00:00.000Z',

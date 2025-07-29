@@ -4,16 +4,21 @@ import { useEffect, useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { CheckCircle, XCircle, MapPin, Phone, Calendar, User } from 'lucide-react'
+import { CheckCircle, XCircle, MapPin, Phone, Calendar, User, Eye } from 'lucide-react'
 import { useAppDispatch, useAppSelector } from '@/stores/store'
 import { fetchVenueApplications, setSelectedApplication, rejectVenueApplication } from '@/stores/slices/venueSlice'
 import { VenueApplication, VenueCategoryType, VenueApprovalStatus } from '@/types'
 import { VenueApprovalDialog } from './venue-approval-dialog'
+import { VenueApplicationDetailDialog } from './venue-application-detail-dialog'
 import { 
   VENUE_CATEGORY_LABELS, 
   VENUE_APPROVAL_STATUS_LABELS, 
   VENUE_APPROVAL_STATUS_STYLES 
 } from '@/shared/constants/venue.constants'
+import { 
+  PET_FRIENDLY_LEVEL_LABELS, 
+  PET_FRIENDLY_LEVEL_STYLES 
+} from '@/shared/constants/comment.constants'
 import { mockVenueApplications } from '@/shared/mocks/venue-applications.mock'
 
 interface PendingShopListProps {
@@ -28,6 +33,8 @@ export function PendingShopList({ filters }: PendingShopListProps) {
   const { loading } = useAppSelector(state => state.venue)
   const [isApprovalDialogOpen, setIsApprovalDialogOpen] = useState(false)
   const [selectedForApproval, setSelectedForApproval] = useState<VenueApplication | null>(null)
+  const [isDetailDialogOpen, setIsDetailDialogOpen] = useState(false)
+  const [selectedForDetail, setSelectedForDetail] = useState<VenueApplication | null>(null)
 
   useEffect(() => {
     dispatch(fetchVenueApplications({ page: 1, limit: 10, status: VenueApprovalStatus.Pending }))
@@ -48,6 +55,16 @@ export function PendingShopList({ filters }: PendingShopListProps) {
         console.error('Failed to reject application:', error)
       }
     }
+  }
+
+  const handleViewDetail = (application: VenueApplication) => {
+    setSelectedForDetail(application)
+    setIsDetailDialogOpen(true)
+  }
+
+  const handleDetailDialogClose = () => {
+    setIsDetailDialogOpen(false)
+    setSelectedForDetail(null)
   }
 
   // Filter applications based on filters
@@ -97,7 +114,11 @@ export function PendingShopList({ filters }: PendingShopListProps) {
           ) : (
             <div className="space-y-4">
               {displayApplications.map((application: VenueApplication) => (
-                <div key={application.id} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                <div 
+                  key={application.id} 
+                  className="border rounded-lg p-4 hover:shadow-md transition-shadow cursor-pointer"
+                  onClick={() => handleViewDetail(application)}
+                >
                   <div className="flex justify-between items-start mb-3">
                     <div>
                       <h3 className="text-lg font-semibold">{application.name}</h3>
@@ -110,7 +131,15 @@ export function PendingShopList({ filters }: PendingShopListProps) {
                         </Badge>
                       </div>
                     </div>
-                    <div className="flex gap-2">
+                    <div className="flex gap-2" onClick={(e) => e.stopPropagation()}>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => handleViewDetail(application)}
+                        title="查看詳情"
+                      >
+                        <Eye className="h-4 w-4" />
+                      </Button>
                       <Button
                         size="sm"
                         variant="default"
@@ -137,9 +166,9 @@ export function PendingShopList({ filters }: PendingShopListProps) {
                       <span>{application.address}</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <span className="text-yellow-500">{'★'.repeat(application.petFriendlyLevel)}</span>
-                      <span className="text-gray-400">{'★'.repeat(5 - application.petFriendlyLevel)}</span>
-                      <span className="text-sm">寵物友善度</span>
+                      <Badge className={PET_FRIENDLY_LEVEL_STYLES[application.petFriendlyLevel as keyof typeof PET_FRIENDLY_LEVEL_STYLES]}>
+                        寵物友善度：{PET_FRIENDLY_LEVEL_LABELS[application.petFriendlyLevel as keyof typeof PET_FRIENDLY_LEVEL_LABELS]}
+                      </Badge>
                     </div>
                     <div className="flex items-center gap-2">
                       <User className="h-4 w-4" />
@@ -164,6 +193,12 @@ export function PendingShopList({ filters }: PendingShopListProps) {
           setSelectedForApproval(null)
         }}
         application={selectedForApproval}
+      />
+
+      <VenueApplicationDetailDialog
+        isOpen={isDetailDialogOpen}
+        onClose={handleDetailDialogClose}
+        application={selectedForDetail}
       />
     </>
   )

@@ -5,11 +5,12 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { Edit, Mail } from 'lucide-react'
+import { Edit, Mail, Eye } from 'lucide-react'
 import { useAppDispatch, useAppSelector } from '@/stores/store'
 import { fetchUsers, setSelectedUser } from '@/stores/slices/userSlice'
 import { User, UserStatus, UserGenderType } from '@/types'
 import { UserEditDialog } from './user-edit-dialog'
+import { UserDetailDialog } from './user-detail-dialog'
 
 const genderLabels: Record<UserGenderType, string> = {
   [UserGenderType.Male]: '男',
@@ -35,7 +36,9 @@ export function UserList() {
   const dispatch = useAppDispatch()
   const { users, loading, filters } = useAppSelector(state => state.user)
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
+  const [isDetailDialogOpen, setIsDetailDialogOpen] = useState(false)
   const [selectedUser, setSelectedUserLocal] = useState<User | null>(null)
+  const [selectedUserForDetail, setSelectedUserForDetail] = useState<User | null>(null)
 
   useEffect(() => {
     dispatch(fetchUsers({ 
@@ -50,6 +53,16 @@ export function UserList() {
     setSelectedUserLocal(user)
     dispatch(setSelectedUser(user))
     setIsEditDialogOpen(true)
+  }
+
+  const handleViewDetail = (user: User) => {
+    setSelectedUserForDetail(user)
+    setIsDetailDialogOpen(true)
+  }
+
+  const handleDetailDialogClose = () => {
+    setIsDetailDialogOpen(false)
+    setSelectedUserForDetail(null)
   }
 
   // Apply filters
@@ -97,7 +110,11 @@ export function UserList() {
                 </TableHeader>
                 <TableBody>
                   {displayUsers.map((user) => (
-                    <TableRow key={user.id}>
+                    <TableRow 
+                      key={user.id}
+                      className="cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800"
+                      onClick={() => handleViewDetail(user)}
+                    >
                       <TableCell className="font-medium">{user.name}</TableCell>
                       <TableCell>
                         <div className="flex items-center gap-1">
@@ -118,13 +135,26 @@ export function UserList() {
                       </TableCell>
                       <TableCell>{new Date(user.createdAt).toLocaleDateString('zh-TW')}</TableCell>
                       <TableCell className="text-right">
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => handleEdit(user)}
-                        >
-                          <Edit className="h-4 w-4" />
-                        </Button>
+                        <div className="flex items-center justify-end gap-2" onClick={(e) => e.stopPropagation()}>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => handleViewDetail(user)}
+                            className="h-8 w-8 p-0"
+                            title="查看詳情"
+                          >
+                            <Eye className="h-4 w-4" />
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => handleEdit(user)}
+                            className="h-8 w-8 p-0"
+                            title="編輯用戶"
+                          >
+                            <Edit className="h-4 w-4" />
+                          </Button>
+                        </div>
                       </TableCell>
                     </TableRow>
                   ))}
@@ -143,6 +173,21 @@ export function UserList() {
           dispatch(setSelectedUser(null))
         }}
         user={selectedUser}
+      />
+
+      <UserDetailDialog
+        isOpen={isDetailDialogOpen}
+        onClose={handleDetailDialogClose}
+        user={selectedUserForDetail}
+        onSuspendSuccess={() => {
+          // Refresh users list after suspension status change
+          dispatch(fetchUsers({ 
+            page: 1, 
+            limit: 10,
+            search: filters.search,
+            status: filters.status || undefined
+          }))
+        }}
       />
     </>
   )

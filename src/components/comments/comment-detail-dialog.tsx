@@ -1,11 +1,14 @@
 "use client"
 
+import { useState } from 'react'
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogFooter,
 } from '@/components/ui/dialog'
+import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { 
@@ -17,7 +20,8 @@ import {
   MapPin,
   Phone,
   Globe,
-  Image as ImageIcon
+  Image as ImageIcon,
+  Trash2
 } from 'lucide-react'
 import { Comment } from '@/types'
 import { format } from 'date-fns'
@@ -33,6 +37,10 @@ import {
   RATING_LABELS,
   RATING_TEXT_LABELS
 } from '@/shared/constants/comment.constants'
+import { CommentDeleteDialog } from './comment-delete-dialog'
+import { useAuth } from '@/hooks/use-auth'
+import { useAppDispatch } from '@/stores/store'
+import { fetchComments } from '@/stores/slices/commentSlice'
 
 interface CommentDetailDialogProps {
   isOpen: boolean
@@ -45,17 +53,43 @@ export function CommentDetailDialog({
   onClose, 
   comment
 }: CommentDetailDialogProps) {
+  const dispatch = useAppDispatch()
+  const { checkPermission } = useAuth()
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
+
+  const handleDelete = () => {
+    setIsDeleteDialogOpen(true)
+  }
+
+  const handleDeleteSuccess = () => {
+    // Refresh comments list after successful deletion
+    dispatch(fetchComments({ 
+      page: 1, 
+      limit: 20, 
+      filters: {
+        search: '',
+        venueCategory: undefined,
+        rating: undefined,
+        feedbackType: undefined,
+        petFriendlyLevel: undefined,
+        isDeleted: false
+      } 
+    }))
+    onClose()
+  }
+
   if (!comment) return null
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-3xl max-h-[90vh]">
-        <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
-            <MessageCircle className="h-5 w-5" />
-            評論詳細資料
-          </DialogTitle>
-        </DialogHeader>
+    <>
+      <Dialog open={isOpen && !isDeleteDialogOpen} onOpenChange={onClose}>
+        <DialogContent className="max-w-3xl max-h-[90vh]">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <MessageCircle className="h-5 w-5" />
+              評論詳細資料
+            </DialogTitle>
+          </DialogHeader>
 
         <ScrollArea className="max-h-[calc(90vh-120px)]">
           <div className="space-y-6 pr-4">
@@ -237,7 +271,31 @@ export function CommentDetailDialog({
             )}
           </div>
         </ScrollArea>
+
+        <DialogFooter>
+          <Button variant="outline" onClick={onClose}>
+            關閉
+          </Button>
+          {!comment.isDeleted && checkPermission('comments.moderate') && (
+            <Button
+              variant="destructive"
+              onClick={handleDelete}
+            >
+              <Trash2 className="h-4 w-4 mr-2" />
+              刪除評論
+            </Button>
+          )}
+        </DialogFooter>
       </DialogContent>
     </Dialog>
+
+    {/* Delete Dialog */}
+    <CommentDeleteDialog
+      isOpen={isDeleteDialogOpen}
+      onClose={() => setIsDeleteDialogOpen(false)}
+      comment={comment}
+      onSuccess={handleDeleteSuccess}
+    />
+  </>
   )
 }
