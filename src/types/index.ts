@@ -62,18 +62,77 @@ export interface ThirdPartyAccount {
   connectedAt: Date
 }
 
+export enum PetFriendlyLevel {
+  Low = 1,
+  Medium = 2,
+  High = 3
+}
+
+export enum FeedbackType {
+  Paw = 1,     // 肉球 (正面評價)
+  Poop = 2     // 大便 (負面評價)
+}
+
 export interface Comment {
   id: string
   userId: string
   user: User
+  venueId: string
+  venue?: Venue
+  petId?: number
   content: string
-  createdAt: Date
-  updatedAt?: Date
-  status: 'active' | 'removed' | 'pending'
-  shopId?: string
-  shop?: Shop
-  parentId?: string
-  replies?: Comment[]
+  petFriendlyLevel: PetFriendlyLevel
+  feedbackType: FeedbackType
+  rating: number // 1-5
+  isDeleted: boolean
+  deletedReason?: string
+  createdAt: Date | string
+  createdBy: string
+  updatedAt?: Date | string
+  updatedBy?: string
+  // 關聯的檔案（圖片/影片）
+  files?: CommentFile[]
+}
+
+export interface CommentFile {
+  id: number
+  commentId: string
+  fileId: string
+  file?: File
+  sortOrder: number
+  isDeleted: boolean
+  createdAt: Date | string
+  createdBy: string
+  updatedAt?: Date | string
+  updatedBy?: string
+}
+
+export interface File {
+  id: string
+  name: string
+  type?: string
+  size?: number
+  s3Bucket: string
+  s3Key: string
+  uploadDate: Date | string
+  uploadedBy: string
+  filePurpose: FilePurpose
+  description?: string
+  isDeleted: boolean
+  lastAccessed?: Date | string
+  createdAt: Date | string
+  createdBy: string
+  updatedAt?: Date | string
+  updatedBy?: string
+}
+
+export enum FilePurpose {
+  UserAvatar = 1,
+  PetPhoto = 2,
+  CommentImage = 3,
+  CommentVideo = 4,
+  VenuePhoto = 5,
+  Other = 99
 }
 
 export interface Shop {
