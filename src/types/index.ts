@@ -87,6 +87,71 @@ export interface Shop {
   ownerId?: string
 }
 
+export enum VenueCategoryType {
+  Restaurant = 1,
+  Hospital = 2,
+  Beauty = 3,
+  Hotel = 4
+}
+
+export enum VenueApprovalStatus {
+  Pending = 1,
+  Approved = 2,
+  Rejected = 3
+}
+
+export interface VenueApplication {
+  id: string
+  name: string
+  address: string
+  cityCode: string
+  districtCode: string
+  petFriendlyLevel: number // 1-5
+  categoryType: VenueCategoryType
+  approvalStatus: VenueApprovalStatus
+  approvedVenueId?: string
+  approvedAt?: Date
+  approvedBy?: string
+  createdAt: Date
+  createdBy: string
+  applicantUser?: User
+}
+
+export interface Venue {
+  id: string
+  name: string
+  categoryType: VenueCategoryType
+  address: string
+  latitude: number
+  longitude: number
+  phone?: string
+  website?: string
+  description?: string
+  approvalStatus: VenueApprovalStatus
+  approvedAt?: Date
+  approvedBy?: string
+  isDeleted: boolean
+  createdAt: Date
+  createdBy: string
+  updatedAt: Date
+  updatedBy: string
+  openingHours?: VenueOpeningHour[]
+}
+
+export interface VenueOpeningHour {
+  id: number
+  venueId: string
+  dayOfWeek: number // 0=Sunday, 1=Monday, ..., 6=Saturday
+  openTime?: string // HH:mm format
+  closeTime?: string // HH:mm format
+  isClosed: boolean
+  isDeleted: boolean
+  createdAt: Date
+  createdBy: string
+  updatedAt: Date
+  updatedBy: string
+}
+
 export interface Location {
   latitude: number
   longitude: number
