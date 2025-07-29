@@ -75,7 +75,7 @@ export function VenueApprovalDialog({ isOpen, onClose, application }: VenueAppro
           isDeleted: false,
           createdBy: application.createdBy,
           updatedBy: 'admin', // TODO: Get from auth context
-          openingHours: openingHours,
+          openingHours: openingHours as any,
         }
       })).unwrap()
       

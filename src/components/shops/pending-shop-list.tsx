@@ -7,7 +7,7 @@ import { Badge } from '@/components/ui/badge'
 import { CheckCircle, XCircle, MapPin, Phone, Calendar, User } from 'lucide-react'
 import { useAppDispatch, useAppSelector } from '@/stores/store'
 import { fetchVenueApplications, setSelectedApplication, rejectVenueApplication } from '@/stores/slices/venueSlice'
-import { VenueApplication, VenueCategoryType, VenueApprovalStatus } from '@/types'
+import { VenueApplication, VenueCategoryType, VenueApprovalStatus, UserStatus, UserGenderType, PartnerType, MapWarningIconType } from '@/types'
 import { VenueApprovalDialog } from './venue-approval-dialog'
 
 const categoryTypeLabels: Record<VenueCategoryType, string> = {
@@ -53,7 +53,13 @@ const mockApplications: VenueApplication[] = [
         deviceId: 'device123'
       },
       registeredAt: new Date('2024-12-01'),
-      status: 'active',
+      status: UserStatus.Verified,
+      genderType: UserGenderType.Male,
+      partnerType: PartnerType.Dog,
+      mapWarningIconType: MapWarningIconType.SurprisedPoop,
+      isDeleted: false,
+      createdAt: new Date('2024-12-01'),
+      updatedAt: new Date('2024-12-01'),
       commentCount: 15,
       reportCount: 0
     }
@@ -80,7 +86,13 @@ const mockApplications: VenueApplication[] = [
         deviceId: 'device456'
       },
       registeredAt: new Date('2024-11-15'),
-      status: 'active',
+      status: UserStatus.Verified,
+      genderType: UserGenderType.Male,
+      partnerType: PartnerType.Dog,
+      mapWarningIconType: MapWarningIconType.SurprisedPoop,
+      isDeleted: false,
+      createdAt: new Date('2024-12-01'),
+      updatedAt: new Date('2024-12-01'),
       commentCount: 23,
       reportCount: 0
     }

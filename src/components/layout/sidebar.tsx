@@ -9,9 +9,7 @@ import {
   MessageSquare, 
   Store, 
   Bell, 
-  Settings,
-  Clock,
-  Send
+  Settings
 } from 'lucide-react'
 
 const navigation = [
@@ -42,7 +40,6 @@ const navigation = [
       {
         name: '待審核店家',
         href: '/shops/pending',
-        icon: Clock,
       },
       {
         name: '地點管理',
@@ -62,7 +59,6 @@ const navigation = [
       {
         name: '發送通知',
         href: '/notifications/send',
-        icon: Send,
       },
       {
         name: '發送記錄',
@@ -136,7 +132,6 @@ export function Sidebar() {
                           : 'text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200'
                       )}
                     >
-                      {child.icon && <child.icon className="w-4 h-4 mr-2" />}
                       {child.name}
                     </Link>
                   ))}
