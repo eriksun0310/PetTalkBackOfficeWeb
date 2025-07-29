@@ -114,7 +114,7 @@ export function Sidebar() {
     <div className="w-64 bg-white dark:bg-gray-800 shadow-lg">
       <div className="p-6">
         <h1 className="text-xl font-bold text-gray-900 dark:text-white">
-          Pet Talk 後台
+          PTalk 後台
         </h1>
       </div>
       

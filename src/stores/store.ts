@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import venueReducer from './slices/venueSlice'
+import userReducer from './slices/userSlice'
 
 export const store = configureStore({
   reducer: {
     venue: venueReducer,
+    user: userReducer,
   },
 })
 

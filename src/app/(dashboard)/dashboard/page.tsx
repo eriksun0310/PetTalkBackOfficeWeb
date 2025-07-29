@@ -1,6 +1,5 @@
 import { DashboardStats } from '@/components/dashboard/dashboard-stats'
 import { DashboardCharts } from '@/components/dashboard/dashboard-charts'
-import { RecentActivity } from '@/components/dashboard/recent-activity'
 
 export default function DashboardPage() {
   return (
@@ -16,7 +15,7 @@ export default function DashboardPage() {
       
       <DashboardStats />
       <DashboardCharts />
-      <RecentActivity />
+      
     </div>
   )
 }

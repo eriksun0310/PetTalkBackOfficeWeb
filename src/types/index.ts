@@ -1,13 +1,44 @@
+export enum UserGenderType {
+  Male = 1,
+  Female = 2
+}
+
+export enum UserStatus {
+  Deleted = -1,
+  Registered = 1,
+  Verified = 2,
+  Disabled = 3
+}
+
+export enum PartnerType {
+  Dog = 1,
+  Cat = 2
+}
+
+export enum MapWarningIconType {
+  AngryPoop = 1,
+  SurprisedPoop = 2
+}
+
 export interface User {
   id: string
   email: string
   name: string
-  loginMethod: 'google' | 'line' | 'email'
-  deviceInfo: DeviceInfo
-  registeredAt: Date
-  status: 'active' | 'suspended' | 'blocked'
-  commentCount: number
-  reportCount: number
+  genderType: UserGenderType
+  partnerType: PartnerType
+  mapWarningIconType: MapWarningIconType
+  status: UserStatus
+  isDeleted: boolean
+  createdAt: Date
+  createdBy?: string
+  updatedAt: Date
+  updatedBy?: string
+  // Additional fields for display
+  loginMethod?: 'google' | 'line' | 'email'
+  deviceInfo?: DeviceInfo
+  registeredAt?: Date
+  commentCount?: number
+  reportCount?: number
   avatar?: string
   lastLoginAt?: Date
   thirdPartyAccounts?: ThirdPartyAccount[]
