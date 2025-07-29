@@ -14,6 +14,8 @@ import { useAppDispatch } from '@/stores/store'
 import { updateVenue } from '@/stores/slices/venueSlice'
 import { Venue, VenueCategoryType, VenueOpeningHour } from '@/types'
 import { VenueOpeningHoursForm } from './venue-opening-hours-form'
+import { useToast } from '@/hooks/use-toast'
+import { VENUE_CATEGORY_LABELS } from '@/shared/constants/venue.constants'
 
 interface VenueEditDialogProps {
   isOpen: boolean
@@ -21,17 +23,12 @@ interface VenueEditDialogProps {
   venue: Venue | null
 }
 
-const categoryTypeLabels = {
-  [VenueCategoryType.Restaurant]: '餐廳',
-  [VenueCategoryType.Hospital]: '醫院',
-  [VenueCategoryType.Beauty]: '美容',
-  [VenueCategoryType.Hotel]: '旅館'
-}
-
 interface FormData {
   name: string
   categoryType: VenueCategoryType
   address: string
+  latitude: number
+  longitude: number
   phone: string
   website: string
   description: string
@@ -40,16 +37,21 @@ interface FormData {
 interface FormErrors {
   name?: string
   address?: string
+  latitude?: string
+  longitude?: string
   phone?: string
   website?: string
 }
 
 export function VenueEditDialog({ isOpen, onClose, venue }: VenueEditDialogProps) {
   const dispatch = useAppDispatch()
+  const { toast } = useToast()
   const [formData, setFormData] = useState<FormData>({
     name: '',
     categoryType: VenueCategoryType.Restaurant,
     address: '',
+    latitude: 0,
+    longitude: 0,
     phone: '',
     website: '',
     description: ''
@@ -65,6 +67,8 @@ export function VenueEditDialog({ isOpen, onClose, venue }: VenueEditDialogProps
         name: venue.name,
         categoryType: venue.categoryType,
         address: venue.address,
+        latitude: venue.latitude,
+        longitude: venue.longitude,
         phone: venue.phone || '',
         website: venue.website || '',
         description: venue.description || ''
@@ -118,11 +122,19 @@ export function VenueEditDialog({ isOpen, onClose, venue }: VenueEditDialogProps
       newErrors.website = '請輸入有效的網址格式 (需以 http:// 或 https:// 開頭)'
     }
 
+    if (isNaN(formData.latitude) || formData.latitude < -90 || formData.latitude > 90) {
+      newErrors.latitude = '緯度必須在 -90 到 90 之間'
+    }
+
+    if (isNaN(formData.longitude) || formData.longitude < -180 || formData.longitude > 180) {
+      newErrors.longitude = '經度必須在 -180 到 180 之間'
+    }
+
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
   }
 
-  const handleInputChange = (field: keyof FormData, value: string | VenueCategoryType) => {
+  const handleInputChange = (field: keyof FormData, value: string | VenueCategoryType | number) => {
     setFormData(prev => ({ ...prev, [field]: value }))
     // Clear error when user starts typing
     if (errors[field as keyof FormErrors]) {
@@ -143,10 +155,19 @@ export function VenueEditDialog({ isOpen, onClose, venue }: VenueEditDialogProps
         }
       })).unwrap()
       
+      toast({
+        title: "更新成功",
+        description: `店家「${formData.name}」的資料已成功更新`,
+      })
+      
       onClose()
     } catch (error) {
       console.error('Failed to update venue:', error)
-      // TODO: Show error message to user
+      toast({
+        title: "更新失敗",
+        description: "無法更新店家資料，請稍後再試",
+        variant: "destructive",
+      })
     } finally {
       setIsSubmitting(false)
     }
@@ -160,22 +181,25 @@ export function VenueEditDialog({ isOpen, onClose, venue }: VenueEditDialogProps
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-hidden">
+      <DialogContent className="max-w-3xl max-h-[90vh] overflow-hidden">
         <DialogHeader>
           <DialogTitle>編輯店家資料</DialogTitle>
         </DialogHeader>
 
-        <ScrollArea className="max-h-[calc(90vh-120px)]">
+        <ScrollArea className="max-h-[calc(90vh-120px)] pr-4">
           <Tabs defaultValue="basic" className="w-full">
-            <TabsList className="grid w-full grid-cols-2">
+            <TabsList className="grid w-full grid-cols-2 mb-6">
               <TabsTrigger value="basic">基本資料</TabsTrigger>
               <TabsTrigger value="hours">營業時間</TabsTrigger>
             </TabsList>
 
-            <TabsContent value="basic" className="space-y-4 p-1">
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="name">店家名稱 *</Label>
+            <TabsContent value="basic" className="space-y-6">
+              {/* 基本資訊區塊 */}
+              <div>
+                <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-4">基本資訊</h3>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="name">店家名稱 *</Label>
                   <Input
                     id="name"
                     value={formData.name}
@@ -201,18 +225,22 @@ export function VenueEditDialog({ isOpen, onClose, venue }: VenueEditDialogProps
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      {Object.entries(categoryTypeLabels).map(([value, label]) => (
+                      {Object.entries(VENUE_CATEGORY_LABELS).map(([value, label]) => (
                         <SelectItem key={value} value={value}>
                           {label}
                         </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
+                  </div>
                 </div>
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="address">店家地址 *</Label>
+              <div className="border-t pt-6">
+                <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-4">位置資訊</h3>
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="address">店家地址 *</Label>
                 <Input
                   id="address"
                   value={formData.address}
@@ -230,7 +258,51 @@ export function VenueEditDialog({ isOpen, onClose, venue }: VenueEditDialogProps
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="phone">聯絡電話</Label>
+                  <Label htmlFor="latitude">緯度 *</Label>
+                  <Input
+                    id="latitude"
+                    type="number"
+                    step="0.0000001"
+                    value={formData.latitude}
+                    onChange={(e) => handleInputChange('latitude', parseFloat(e.target.value) || 0)}
+                    placeholder="例：25.0339687"
+                    className={errors.latitude ? 'border-red-500' : ''}
+                  />
+                  {errors.latitude && (
+                    <div className="flex items-center gap-1 text-red-500 text-sm">
+                      <AlertTriangle className="h-4 w-4" />
+                      {errors.latitude}
+                    </div>
+                  )}
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="longitude">經度 *</Label>
+                  <Input
+                    id="longitude"
+                    type="number"
+                    step="0.0000001"
+                    value={formData.longitude}
+                    onChange={(e) => handleInputChange('longitude', parseFloat(e.target.value) || 0)}
+                    placeholder="例：121.5644722"
+                    className={errors.longitude ? 'border-red-500' : ''}
+                  />
+                  {errors.longitude && (
+                    <div className="flex items-center gap-1 text-red-500 text-sm">
+                      <AlertTriangle className="h-4 w-4" />
+                      {errors.longitude}
+                    </div>
+                  )}
+                  </div>
+                </div>
+                </div>
+              </div>
+
+              <div className="border-t pt-6">
+                <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-4">聯絡資訊</h3>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="phone">聯絡電話</Label>
                   <Input
                     id="phone"
                     value={formData.phone}
@@ -262,28 +334,31 @@ export function VenueEditDialog({ isOpen, onClose, venue }: VenueEditDialogProps
                     </div>
                   )}
                 </div>
+                </div>
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="description">店家描述</Label>
-                <Textarea
-                  id="description"
-                  value={formData.description}
-                  onChange={(e) => handleInputChange('description', e.target.value)}
-                  placeholder="請輸入店家詳細描述、特色服務等..."
-                  rows={4}
-                />
+              <div className="border-t pt-6">
+                <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-4">詳細資訊</h3>
+                <div className="space-y-2">
+                  <Label htmlFor="description">店家描述</Label>
+                  <Textarea
+                    id="description"
+                    value={formData.description}
+                    onChange={(e) => handleInputChange('description', e.target.value)}
+                    placeholder="請輸入店家詳細描述、特色服務等..."
+                    rows={5}
+                    className="resize-none"
+                  />
+                </div>
               </div>
             </TabsContent>
 
-            <TabsContent value="hours" className="p-1">
-              <div className="space-y-4">
-                <div>
-                  <h3 className="text-lg font-medium mb-2">營業時間設定</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-                    設定每週的營業時間，可以使用快速複製功能來設定重複的時間。
-                  </p>
-                </div>
+            <TabsContent value="hours" className="space-y-6">
+              <div>
+                <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">營業時間設定</h3>
+                <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
+                  設定每週的營業時間，可以使用快速複製功能來設定重複的時間。
+                </p>
                 <VenueOpeningHoursForm
                   openingHours={openingHours}
                   onChange={setOpeningHours}
@@ -293,7 +368,7 @@ export function VenueEditDialog({ isOpen, onClose, venue }: VenueEditDialogProps
           </Tabs>
         </ScrollArea>
 
-        <DialogFooter>
+        <DialogFooter className="border-t pt-4">
           <Button
             variant="outline"
             onClick={handleClose}
@@ -304,6 +379,7 @@ export function VenueEditDialog({ isOpen, onClose, venue }: VenueEditDialogProps
           <Button
             onClick={handleSubmit}
             disabled={isSubmitting}
+            className="min-w-[100px]"
           >
             {isSubmitting ? '儲存中...' : '儲存變更'}
           </Button>

@@ -135,12 +135,13 @@ export interface Venue {
   website?: string
   description?: string
   approvalStatus: VenueApprovalStatus
-  approvedAt?: Date
+  approvedAt?: string | Date
   approvedBy?: string
+  rejectionReason?: string
   isDeleted: boolean
-  createdAt: Date
+  createdAt: string | Date
   createdBy: string
-  updatedAt: Date
+  updatedAt: string | Date
   updatedBy: string
   openingHours?: VenueOpeningHour[]
 }
@@ -153,9 +154,9 @@ export interface VenueOpeningHour {
   closeTime?: string // HH:mm format
   isClosed: boolean
   isDeleted: boolean
-  createdAt: Date
+  createdAt: string | Date
   createdBy: string
-  updatedAt: Date
+  updatedAt: string | Date
   updatedBy: string
 }
 

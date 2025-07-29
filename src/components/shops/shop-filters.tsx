@@ -12,19 +12,7 @@ import { setFilters, resetFilters, fetchVenues } from '@/stores/slices/venueSlic
 import { VenueCategoryType, VenueApprovalStatus } from '@/types'
 import { useDebounce } from '@/hooks/useDebounce'
 import { useAuth } from '@/hooks/use-auth'
-
-const categoryTypeLabels = {
-  [VenueCategoryType.Restaurant]: '餐廳',
-  [VenueCategoryType.Hospital]: '醫院',
-  [VenueCategoryType.Beauty]: '美容',
-  [VenueCategoryType.Hotel]: '旅館'
-}
-
-const approvalStatusLabels = {
-  [VenueApprovalStatus.Pending]: '待審核',
-  [VenueApprovalStatus.Approved]: '已核准',
-  [VenueApprovalStatus.Rejected]: '已拒絕'
-}
+import { VENUE_CATEGORY_LABELS, VENUE_APPROVAL_STATUS_LABELS } from '@/shared/constants/venue.constants'
 
 export function ShopFilters() {
   const dispatch = useAppDispatch()
@@ -103,7 +91,7 @@ export function ShopFilters() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">全部類型</SelectItem>
-                  {Object.entries(categoryTypeLabels).map(([value, label]) => (
+                  {Object.entries(VENUE_CATEGORY_LABELS).map(([value, label]) => (
                     <SelectItem key={value} value={value}>
                       {label}
                     </SelectItem>
@@ -124,7 +112,7 @@ export function ShopFilters() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">全部狀態</SelectItem>
-                  {Object.entries(approvalStatusLabels).map(([value, label]) => (
+                  {Object.entries(VENUE_APPROVAL_STATUS_LABELS).map(([value, label]) => (
                     <SelectItem key={value} value={value}>
                       {label}
                     </SelectItem>
@@ -162,7 +150,7 @@ export function ShopFilters() {
               
               {filters.categoryType !== undefined && (
                 <Badge variant="secondary" className="gap-1">
-                  {categoryTypeLabels[filters.categoryType]}
+                  {VENUE_CATEGORY_LABELS[filters.categoryType]}
                   <X 
                     className="h-3 w-3 cursor-pointer" 
                     onClick={() => handleCategoryChange('all')}
@@ -172,7 +160,7 @@ export function ShopFilters() {
               
               {filters.approvalStatus !== undefined && (
                 <Badge variant="secondary" className="gap-1">
-                  {approvalStatusLabels[filters.approvalStatus]}
+                  {VENUE_APPROVAL_STATUS_LABELS[filters.approvalStatus]}
                   <X 
                     className="h-3 w-3 cursor-pointer" 
                     onClick={() => handleStatusChange('all')}

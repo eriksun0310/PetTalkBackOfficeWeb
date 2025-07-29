@@ -15,6 +15,7 @@ import {
 import { useAppDispatch } from '@/stores/store'
 import { deleteVenue, fetchVenues } from '@/stores/slices/venueSlice'
 import { Venue } from '@/types'
+import { useToast } from '@/hooks/use-toast'
 
 interface VenueDeleteDialogProps {
   isOpen: boolean
@@ -25,6 +26,7 @@ interface VenueDeleteDialogProps {
 
 export function VenueDeleteDialog({ isOpen, onClose, venue, onSuccess }: VenueDeleteDialogProps) {
   const dispatch = useAppDispatch()
+  const { toast } = useToast()
   const [isDeleting, setIsDeleting] = useState(false)
 
   const handleConfirmDelete = async () => {
@@ -33,11 +35,19 @@ export function VenueDeleteDialog({ isOpen, onClose, venue, onSuccess }: VenueDe
     setIsDeleting(true)
     try {
       await dispatch(deleteVenue(venue.id)).unwrap()
+      toast({
+        title: "刪除成功",
+        description: `店家「${venue.name}」已成功刪除`,
+      })
       onSuccess?.()
       onClose()
     } catch (error) {
       console.error('Failed to delete venue:', error)
-      // TODO: Show error toast/notification to user
+      toast({
+        title: "刪除失敗",
+        description: "無法刪除店家，請稍後再試",
+        variant: "destructive",
+      })
     } finally {
       setIsDeleting(false)
     }

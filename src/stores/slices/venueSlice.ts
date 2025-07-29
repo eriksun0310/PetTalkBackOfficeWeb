@@ -87,15 +87,16 @@ export const fetchVenues = createAsyncThunk(
   'venue/fetchVenues',
   async (params: { page: number; limit: number; filters: VenueFilters }) => {
     // TODO: Replace with actual API call
-    return {
-      data: [] as Venue[],
-      pagination: {
-        page: params.page,
-        limit: params.limit,
-        total: 0,
-        totalPages: 0
-      }
-    }
+    const { getVenues } = await import('@/shared/mocks/venues.mock')
+    
+    // 模擬 API 延遲
+    await new Promise(resolve => setTimeout(resolve, 300))
+    
+    return getVenues({
+      ...params.filters,
+      page: params.page,
+      limit: params.limit
+    })
   }
 )
 
@@ -108,7 +109,17 @@ export const updateVenue = createAsyncThunk(
     }
   }) => {
     // TODO: Replace with actual API call
-    return { id, data }
+    const { updateVenue: updateVenueMock } = await import('@/shared/mocks/venues.mock')
+    
+    // 模擬 API 延遲
+    await new Promise(resolve => setTimeout(resolve, 500))
+    
+    const updatedVenue = updateVenueMock(id, data as Partial<Venue>)
+    if (!updatedVenue) {
+      throw new Error('店家不存在')
+    }
+    
+    return updatedVenue
   }
 )
 
@@ -116,6 +127,16 @@ export const deleteVenue = createAsyncThunk(
   'venue/deleteVenue',
   async (id: string) => {
     // TODO: Replace with actual API call - soft delete by setting isDeleted = true
+    const { deleteVenue: deleteVenueMock } = await import('@/shared/mocks/venues.mock')
+    
+    // 模擬 API 延遲
+    await new Promise(resolve => setTimeout(resolve, 300))
+    
+    const success = deleteVenueMock(id)
+    if (!success) {
+      throw new Error('無法刪除店家')
+    }
+    
     return { id }
   }
 )
@@ -227,7 +248,7 @@ const venueSlice = createSlice({
         state.loading = false
         const index = state.venues.findIndex(venue => venue.id === action.payload.id)
         if (index !== -1) {
-          state.venues[index] = { ...state.venues[index], ...action.payload.data }
+          state.venues[index] = action.payload
         }
       })
       .addCase(updateVenue.rejected, (state, action) => {

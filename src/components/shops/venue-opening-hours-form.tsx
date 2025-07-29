@@ -6,13 +6,12 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Copy } from 'lucide-react'
 import { VenueOpeningHour } from '@/types'
+import { DAY_OF_WEEK_LABELS } from '@/shared/constants/venue.constants'
 
 interface VenueOpeningHoursFormProps {
   openingHours: Omit<VenueOpeningHour, 'id' | 'venueId' | 'createdAt' | 'updatedAt'>[]
   onChange: (hours: Omit<VenueOpeningHour, 'id' | 'venueId' | 'createdAt' | 'updatedAt'>[]) => void
 }
-
-const dayLabels = ['週日', '週一', '週二', '週三', '週四', '週五', '週六']
 
 export function VenueOpeningHoursForm({ openingHours, onChange }: VenueOpeningHoursFormProps) {
   const handleTimeChange = (dayIndex: number, field: 'openTime' | 'closeTime', value: string) => {
@@ -91,7 +90,7 @@ export function VenueOpeningHoursForm({ openingHours, onChange }: VenueOpeningHo
         {openingHours.map((hours, index) => (
           <div key={index} className="flex items-center gap-4 p-3 border rounded-lg">
             <div className="w-16">
-              <Label className="font-medium">{dayLabels[index]}</Label>
+              <Label className="font-medium">{DAY_OF_WEEK_LABELS[index]}</Label>
             </div>
             
             <div className="flex items-center gap-2">

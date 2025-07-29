@@ -9,25 +9,11 @@ import { useAppDispatch, useAppSelector } from '@/stores/store'
 import { fetchVenueApplications, setSelectedApplication, rejectVenueApplication } from '@/stores/slices/venueSlice'
 import { VenueApplication, VenueCategoryType, VenueApprovalStatus, UserStatus, UserGenderType, PartnerType, MapWarningIconType } from '@/types'
 import { VenueApprovalDialog } from './venue-approval-dialog'
-
-const categoryTypeLabels: Record<VenueCategoryType, string> = {
-  [VenueCategoryType.Restaurant]: '餐廳',
-  [VenueCategoryType.Hospital]: '醫院',
-  [VenueCategoryType.Beauty]: '美容',
-  [VenueCategoryType.Hotel]: '旅館',
-}
-
-const approvalStatusLabels: Record<VenueApprovalStatus, string> = {
-  [VenueApprovalStatus.Pending]: '審核中',
-  [VenueApprovalStatus.Approved]: '已通過',
-  [VenueApprovalStatus.Rejected]: '未通過',
-}
-
-const approvalStatusColors: Record<VenueApprovalStatus, string> = {
-  [VenueApprovalStatus.Pending]: 'bg-yellow-100 text-yellow-800',
-  [VenueApprovalStatus.Approved]: 'bg-green-100 text-green-800',
-  [VenueApprovalStatus.Rejected]: 'bg-red-100 text-red-800',
-}
+import { 
+  VENUE_CATEGORY_LABELS, 
+  VENUE_APPROVAL_STATUS_LABELS, 
+  VENUE_APPROVAL_STATUS_STYLES 
+} from '@/shared/constants/venue.constants'
 
 // Mock data for demonstration
 const mockApplications: VenueApplication[] = [
@@ -152,10 +138,10 @@ export function PendingShopList() {
                       <h3 className="text-lg font-semibold">{application.name}</h3>
                       <div className="flex items-center gap-4 mt-1">
                         <Badge variant="secondary">
-                          {categoryTypeLabels[application.categoryType]}
+                          {VENUE_CATEGORY_LABELS[application.categoryType]}
                         </Badge>
-                        <Badge className={approvalStatusColors[application.approvalStatus]}>
-                          {approvalStatusLabels[application.approvalStatus]}
+                        <Badge className={VENUE_APPROVAL_STATUS_STYLES[application.approvalStatus]}>
+                          {VENUE_APPROVAL_STATUS_LABELS[application.approvalStatus]}
                         </Badge>
                       </div>
                     </div>

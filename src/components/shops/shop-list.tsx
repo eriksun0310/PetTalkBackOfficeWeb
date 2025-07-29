@@ -8,31 +8,17 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Edit2, Trash2, Eye, ChevronLeft, ChevronRight } from 'lucide-react'
 import { useAppDispatch, useAppSelector } from '@/stores/store'
 import { fetchVenues, setSelectedVenue, deleteVenue, setPagination } from '@/stores/slices/venueSlice'
-import { VenueCategoryType, VenueApprovalStatus, Venue } from '@/types'
+import { Venue } from '@/types'
 import { format } from 'date-fns'
 import { zhTW } from 'date-fns/locale'
 import { VenueEditDialog } from './venue-edit-dialog'
 import { VenueDeleteDialog } from './venue-delete-dialog'
 import { useAuth } from '@/hooks/use-auth'
-
-const categoryTypeLabels = {
-  [VenueCategoryType.Restaurant]: '餐廳',
-  [VenueCategoryType.Hospital]: '醫院',
-  [VenueCategoryType.Beauty]: '美容',
-  [VenueCategoryType.Hotel]: '旅館'
-}
-
-const approvalStatusStyles = {
-  [VenueApprovalStatus.Pending]: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300',
-  [VenueApprovalStatus.Approved]: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300',
-  [VenueApprovalStatus.Rejected]: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300'
-}
-
-const approvalStatusLabels = {
-  [VenueApprovalStatus.Pending]: '待審核',
-  [VenueApprovalStatus.Approved]: '已核准',
-  [VenueApprovalStatus.Rejected]: '已拒絕'
-}
+import { 
+  VENUE_CATEGORY_LABELS, 
+  VENUE_APPROVAL_STATUS_LABELS, 
+  VENUE_APPROVAL_STATUS_STYLES 
+} from '@/shared/constants/venue.constants'
 
 export function ShopList() {
   const dispatch = useAppDispatch()
@@ -176,7 +162,7 @@ export function ShopList() {
                       </TableCell>
                       <TableCell>
                         <Badge variant="outline">
-                          {categoryTypeLabels[venue.categoryType]}
+                          {VENUE_CATEGORY_LABELS[venue.categoryType]}
                         </Badge>
                       </TableCell>
                       <TableCell>
@@ -187,9 +173,9 @@ export function ShopList() {
                       <TableCell>
                         <Badge 
                           variant="secondary" 
-                          className={approvalStatusStyles[venue.approvalStatus]}
+                          className={VENUE_APPROVAL_STATUS_STYLES[venue.approvalStatus]}
                         >
-                          {approvalStatusLabels[venue.approvalStatus]}
+                          {VENUE_APPROVAL_STATUS_LABELS[venue.approvalStatus]}
                         </Badge>
                       </TableCell>
                       <TableCell>
