@@ -8,7 +8,6 @@ const routeMap: Record<string, string> = {
   '/dashboard': '儀表板',
   '/users': '用戶管理',
   '/comments': '評論管理',
-  '/comments/reported': '被檢舉評論',
   '/shops': '店家管理',
   '/shops/pending': '待審核店家',
   '/shops/locations': '地點管理',

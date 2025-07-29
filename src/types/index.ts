@@ -68,35 +68,11 @@ export interface Comment {
   createdAt: Date
   updatedAt?: Date
   status: 'active' | 'removed' | 'pending'
-  reportCount: number
-  reports: Report[]
   shopId?: string
   shop?: Shop
   parentId?: string
   replies?: Comment[]
 }
-
-export interface Report {
-  id: string
-  reporterId: string
-  reporter: User
-  targetType: 'comment' | 'user' | 'shop'
-  targetId: string
-  reason: ReportReason
-  description?: string
-  status: 'pending' | 'reviewed' | 'dismissed'
-  createdAt: Date
-  reviewedAt?: Date
-  reviewedBy?: string
-}
-
-export type ReportReason = 
-  | 'spam'
-  | 'harassment'
-  | 'inappropriate_content'
-  | 'false_information'
-  | 'copyright_violation'
-  | 'other'
 
 export interface Shop {
   id: string

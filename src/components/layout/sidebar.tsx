@@ -10,7 +10,6 @@ import {
   Store, 
   Bell, 
   Settings,
-  Flag,
   Clock,
   Send
 } from 'lucide-react'
@@ -30,17 +29,6 @@ const navigation = [
     name: '評論管理',
     href: '/comments',
     icon: MessageSquare,
-    children: [
-      {
-        name: '所有評論',
-        href: '/comments',
-      },
-      {
-        name: '被檢舉評論',
-        href: '/comments/reported',
-        icon: Flag,
-      },
-    ],
   },
   {
     name: '店家管理',
