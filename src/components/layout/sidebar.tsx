@@ -41,10 +41,6 @@ const navigation = [
         name: '待審核店家',
         href: '/shops/pending',
       },
-      {
-        name: '地點管理',
-        href: '/shops/locations',
-      },
     ],
   },
   {

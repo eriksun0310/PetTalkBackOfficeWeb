@@ -29,19 +29,21 @@ export interface User {
   mapWarningIconType: MapWarningIconType
   status: UserStatus
   isDeleted: boolean
-  createdAt: Date
+  isSuspended?: boolean
+  createdAt: Date | string
   createdBy?: string
-  updatedAt: Date
+  updatedAt: Date | string
   updatedBy?: string
   // Additional fields for display
-  loginMethod?: 'google' | 'line' | 'email'
+  loginMethod?: 'google' | 'line' | 'email' | 'facebook'
   deviceInfo?: DeviceInfo
-  registeredAt?: Date
+  registeredAt?: Date | string
   commentCount?: number
   reportCount?: number
   avatar?: string
-  lastLoginAt?: Date
+  lastLoginAt?: Date | string
   thirdPartyAccounts?: ThirdPartyAccount[]
+  bio?: string
 }
 
 export interface DeviceInfo {
@@ -117,9 +119,9 @@ export interface VenueApplication {
   categoryType: VenueCategoryType
   approvalStatus: VenueApprovalStatus
   approvedVenueId?: string
-  approvedAt?: Date
+  approvedAt?: Date | string
   approvedBy?: string
-  createdAt: Date
+  createdAt: Date | string
   createdBy: string
   applicantUser?: User
 }
@@ -134,6 +136,8 @@ export interface Venue {
   phone?: string
   website?: string
   description?: string
+  images?: string[] // 店家圖片 URLs
+  mainImage?: string // 主要圖片 URL
   approvalStatus: VenueApprovalStatus
   approvedAt?: string | Date
   approvedBy?: string

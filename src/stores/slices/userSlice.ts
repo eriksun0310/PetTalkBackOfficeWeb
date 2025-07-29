@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
 import { User, UserStatus } from '@/types'
+import { mockUsers } from '@/shared/mocks/users.mock'
 
 interface UserState {
   users: User[]
@@ -35,69 +36,7 @@ const initialState: UserState = {
   }
 }
 
-// Import mock data for demo purposes
-const mockUsers: User[] = [
-  {
-    id: '1',
-    email: 'john.doe@example.com',
-    name: '王小明',
-    genderType: 1,
-    partnerType: 1,
-    mapWarningIconType: 1,
-    status: 2,
-    isDeleted: false,
-    createdAt: new Date('2024-01-15'),
-    updatedAt: new Date('2024-02-20'),
-    loginMethod: 'google',
-    commentCount: 42,
-    reportCount: 0,
-  },
-  {
-    id: '2',
-    email: 'jane.smith@example.com',
-    name: '李美玲',
-    genderType: 2,
-    partnerType: 2,
-    mapWarningIconType: 2,
-    status: 1,
-    isDeleted: false,
-    createdAt: new Date('2024-02-01'),
-    updatedAt: new Date('2024-02-01'),
-    loginMethod: 'line',
-    commentCount: 15,
-    reportCount: 1,
-  },
-  {
-    id: '3',
-    email: 'disabled.user@example.com',
-    name: '張大衛',
-    genderType: 1,
-    partnerType: 1,
-    mapWarningIconType: 1,
-    status: 3,
-    isDeleted: false,
-    createdAt: new Date('2023-12-10'),
-    updatedAt: new Date('2024-01-30'),
-    loginMethod: 'email',
-    commentCount: 128,
-    reportCount: 5,
-  },
-  {
-    id: '4',
-    email: 'deleted.user@example.com',
-    name: '陳小華',
-    genderType: 2,
-    partnerType: 2,
-    mapWarningIconType: 1,
-    status: -1,
-    isDeleted: true,
-    createdAt: new Date('2023-11-05'),
-    updatedAt: new Date('2024-01-15'),
-    loginMethod: 'line',
-    commentCount: 35,
-    reportCount: 2,
-  }
-]
+// Mock users are now imported from shared/mocks/users.mock.ts
 
 export const fetchUsers = createAsyncThunk(
   'user/fetchUsers',
@@ -183,7 +122,7 @@ const userSlice = createSlice({
             ...updates,
             // If status is Deleted (-1), also set isDeleted to true
             isDeleted: updates.status === UserStatus.Deleted ? true : state.users[index].isDeleted,
-            updatedAt: new Date()
+            updatedAt: new Date().toISOString()
           }
         }
       })
@@ -199,7 +138,7 @@ const userSlice = createSlice({
           state.users[index].status = currentStatus === UserStatus.Disabled 
             ? UserStatus.Verified 
             : UserStatus.Disabled
-          state.users[index].updatedAt = new Date()
+          state.users[index].updatedAt = new Date().toISOString()
         }
       })
   }

@@ -35,6 +35,12 @@ export const mockVenues: Venue[] = [
     phone: '02-2778-1234',
     website: 'https://pet-cafe-taipei.com',
     description: '專為寵物家庭打造的溫馨咖啡廳，提供寵物專用餐點和遊戲區。店內設有寵物洗腳區、飲水設施，並定期舉辦寵物聚會活動。',
+    images: [
+      'https://images.unsplash.com/photo-1514984879728-be0aff75a6e8?w=800',
+      'https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=800',
+      'https://images.unsplash.com/photo-1521017432531-fbd92d768814?w=800'
+    ],
+    mainImage: 'https://images.unsplash.com/photo-1514984879728-be0aff75a6e8?w=800',
     approvalStatus: VenueApprovalStatus.Approved,
     approvedAt: '2024-01-15T00:00:00.000Z',
     approvedBy: 'admin',
@@ -55,6 +61,11 @@ export const mockVenues: Venue[] = [
     phone: '02-2345-6789',
     website: 'https://wangwang-vet.com.tw',
     description: '24小時急診服務，專業醫療團隊，設備齊全。提供內外科、預防醫學、牙科、眼科等完整醫療服務。',
+    images: [
+      'https://images.unsplash.com/photo-1629690637930-4879ec38c28a?w=800',
+      'https://images.unsplash.com/photo-1596272875729-ed2ff7d6d9c5?w=800'
+    ],
+    mainImage: 'https://images.unsplash.com/photo-1629690637930-4879ec38c28a?w=800',
     approvalStatus: VenueApprovalStatus.Approved,
     approvedAt: '2024-01-05T00:00:00.000Z',
     approvedBy: 'admin',
@@ -89,6 +100,13 @@ export const mockVenues: Venue[] = [
     phone: '02-2767-3456',
     website: 'https://pet-beauty-salon.tw',
     description: '專業寵物美容服務，包含洗澡、剪毛、SPA、指甲修剪等。使用天然無毒美容產品，溫柔對待每一位毛孩。',
+    images: [
+      'https://images.unsplash.com/photo-1581888227599-779811939961?w=800',
+      'https://images.unsplash.com/photo-1629690998557-58e327f7f808?w=800',
+      'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=800',
+      'https://images.unsplash.com/photo-1625948515291-69613efd103f?w=800'
+    ],
+    mainImage: 'https://images.unsplash.com/photo-1581888227599-779811939961?w=800',
     approvalStatus: VenueApprovalStatus.Approved,
     approvedAt: '2024-02-01T00:00:00.000Z',
     approvedBy: 'admin',

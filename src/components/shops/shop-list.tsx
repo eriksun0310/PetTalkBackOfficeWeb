@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { Edit2, Trash2, Eye, ChevronLeft, ChevronRight } from 'lucide-react'
+import { Edit2, Trash2, Eye, ChevronLeft, ChevronRight, Image } from 'lucide-react'
 import { useAppDispatch, useAppSelector } from '@/stores/store'
 import { fetchVenues, setSelectedVenue, deleteVenue, setPagination } from '@/stores/slices/venueSlice'
 import { Venue } from '@/types'
@@ -141,6 +141,7 @@ export function ShopList() {
               <Table>
                 <TableHeader>
                   <TableRow>
+                    <TableHead className="w-[80px]">圖片</TableHead>
                     <TableHead>店家名稱</TableHead>
                     <TableHead>類型</TableHead>
                     <TableHead>地址</TableHead>
@@ -152,6 +153,19 @@ export function ShopList() {
                 <TableBody>
                   {venues.map((venue) => (
                     <TableRow key={venue.id}>
+                      <TableCell>
+                        {venue.mainImage ? (
+                          <img
+                            src={venue.mainImage}
+                            alt={venue.name}
+                            className="w-16 h-12 object-cover rounded"
+                          />
+                        ) : (
+                          <div className="w-16 h-12 bg-gray-100 dark:bg-gray-800 rounded flex items-center justify-center">
+                            <Image className="h-6 w-6 text-gray-400" aria-hidden="true" />
+                          </div>
+                        )}
+                      </TableCell>
                       <TableCell className="font-medium">
                         <div className="max-w-[200px]">
                           <div className="font-semibold">{venue.name}</div>

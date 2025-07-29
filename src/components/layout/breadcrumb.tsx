@@ -10,7 +10,6 @@ const routeMap: Record<string, string> = {
   '/comments': '評論管理',
   '/shops': '店家管理',
   '/shops/pending': '待審核店家',
-  '/shops/locations': '地點管理',
   '/notifications': '通知管理',
   '/notifications/send': '發送通知',
   '/notifications/history': '發送記錄',

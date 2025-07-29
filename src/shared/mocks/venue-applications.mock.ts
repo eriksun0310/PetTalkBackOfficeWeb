@@ -1,4 +1,4 @@
-import { VenueApplication, VenueCategoryType, VenueApprovalStatus, UserStatus, UserGenderType } from '@/types'
+import { VenueApplication, VenueCategoryType, VenueApprovalStatus, UserStatus, UserGenderType, PartnerType, MapWarningIconType } from '@/types'
 
 export const mockVenueApplications: VenueApplication[] = [
   {
@@ -10,7 +10,7 @@ export const mockVenueApplications: VenueApplication[] = [
     petFriendlyLevel: 5,
     categoryType: VenueCategoryType.Restaurant,
     approvalStatus: VenueApprovalStatus.Pending,
-    createdAt: new Date('2025-01-28'),
+    createdAt: '2025-01-28T00:00:00.000Z',
     createdBy: 'user123',
     applicantUser: {
       id: 'user123',
@@ -24,13 +24,15 @@ export const mockVenueApplications: VenueApplication[] = [
       },
       status: UserStatus.Verified,
       genderType: UserGenderType.Male,
+      partnerType: PartnerType.Dog,
+      mapWarningIconType: MapWarningIconType.AngryPoop,
       bio: '寵物愛好者',
       reportCount: 0,
       isSuspended: false,
-      createdAt: new Date('2024-01-01'),
-      updatedAt: new Date('2024-01-01'),
-      commentCount: 15,
-      reportCount: 0
+      isDeleted: false,
+      createdAt: '2024-01-01T00:00:00.000Z',
+      updatedAt: '2024-01-01T00:00:00.000Z',
+      commentCount: 15
     }
   },
   {
@@ -42,7 +44,7 @@ export const mockVenueApplications: VenueApplication[] = [
     petFriendlyLevel: 5,
     categoryType: VenueCategoryType.Hospital,
     approvalStatus: VenueApprovalStatus.Pending,
-    createdAt: new Date('2025-01-27'),
+    createdAt: '2025-01-27T00:00:00.000Z',
     createdBy: 'user456',
     applicantUser: {
       id: 'user456',
@@ -56,13 +58,15 @@ export const mockVenueApplications: VenueApplication[] = [
       },
       status: UserStatus.Verified,
       genderType: UserGenderType.Female,
+      partnerType: PartnerType.Cat,
+      mapWarningIconType: MapWarningIconType.SurprisedPoop,
       bio: '專業獸醫師',
       reportCount: 0,
       isSuspended: false,
-      createdAt: new Date('2023-12-01'),
-      updatedAt: new Date('2023-12-01'),
-      commentCount: 23,
-      reportCount: 0
+      isDeleted: false,
+      createdAt: '2023-12-01T00:00:00.000Z',
+      updatedAt: '2023-12-01T00:00:00.000Z',
+      commentCount: 23
     }
   },
   {
@@ -74,7 +78,7 @@ export const mockVenueApplications: VenueApplication[] = [
     petFriendlyLevel: 5,
     categoryType: VenueCategoryType.Beauty,
     approvalStatus: VenueApprovalStatus.Pending,
-    createdAt: new Date('2025-01-26'),
+    createdAt: '2025-01-26T00:00:00.000Z',
     createdBy: 'user789',
     applicantUser: {
       id: 'user789',
@@ -88,13 +92,15 @@ export const mockVenueApplications: VenueApplication[] = [
       },
       status: UserStatus.Verified,
       genderType: UserGenderType.Female,
+      partnerType: PartnerType.Cat,
+      mapWarningIconType: MapWarningIconType.AngryPoop,
       bio: '國際寵物美容師認證',
       reportCount: 0,
       isSuspended: false,
-      createdAt: new Date('2024-06-15'),
-      updatedAt: new Date('2024-06-15'),
-      commentCount: 42,
-      reportCount: 0
+      isDeleted: false,
+      createdAt: '2024-06-15T00:00:00.000Z',
+      updatedAt: '2024-06-15T00:00:00.000Z',
+      commentCount: 42
     }
   },
   {
@@ -106,7 +112,7 @@ export const mockVenueApplications: VenueApplication[] = [
     petFriendlyLevel: 5,
     categoryType: VenueCategoryType.Hotel,
     approvalStatus: VenueApprovalStatus.Pending,
-    createdAt: new Date('2025-01-25'),
+    createdAt: '2025-01-25T00:00:00.000Z',
     createdBy: 'user321',
     applicantUser: {
       id: 'user321',
@@ -120,13 +126,15 @@ export const mockVenueApplications: VenueApplication[] = [
       },
       status: UserStatus.Verified,
       genderType: UserGenderType.Male,
+      partnerType: PartnerType.Dog,
+      mapWarningIconType: MapWarningIconType.SurprisedPoop,
       bio: '專業寵物照護',
       reportCount: 0,
       isSuspended: false,
-      createdAt: new Date('2024-03-20'),
-      updatedAt: new Date('2024-03-20'),
-      commentCount: 8,
-      reportCount: 0
+      isDeleted: false,
+      createdAt: '2024-03-20T00:00:00.000Z',
+      updatedAt: '2024-03-20T00:00:00.000Z',
+      commentCount: 8
     }
   },
   {
@@ -138,7 +146,7 @@ export const mockVenueApplications: VenueApplication[] = [
     petFriendlyLevel: 4,
     categoryType: VenueCategoryType.Restaurant,
     approvalStatus: VenueApprovalStatus.Pending,
-    createdAt: new Date('2025-01-24'),
+    createdAt: '2025-01-24T00:00:00.000Z',
     createdBy: 'user654',
     applicantUser: {
       id: 'user654',
@@ -152,13 +160,15 @@ export const mockVenueApplications: VenueApplication[] = [
       },
       status: UserStatus.Verified,
       genderType: UserGenderType.Female,
+      partnerType: PartnerType.Cat,
+      mapWarningIconType: MapWarningIconType.AngryPoop,
       bio: '貓奴一枚',
       reportCount: 0,
       isSuspended: false,
-      createdAt: new Date('2024-08-10'),
-      updatedAt: new Date('2024-08-10'),
-      commentCount: 35,
-      reportCount: 0
+      isDeleted: false,
+      createdAt: '2024-08-10T00:00:00.000Z',
+      updatedAt: '2024-08-10T00:00:00.000Z',
+      commentCount: 35
     }
   },
   {
@@ -170,7 +180,7 @@ export const mockVenueApplications: VenueApplication[] = [
     petFriendlyLevel: 5,
     categoryType: VenueCategoryType.Hospital,
     approvalStatus: VenueApprovalStatus.Pending,
-    createdAt: new Date('2025-01-23'),
+    createdAt: '2025-01-23T00:00:00.000Z',
     createdBy: 'user987',
     applicantUser: {
       id: 'user987',
@@ -184,13 +194,15 @@ export const mockVenueApplications: VenueApplication[] = [
       },
       status: UserStatus.Verified,
       genderType: UserGenderType.Male,
+      partnerType: PartnerType.Dog,
+      mapWarningIconType: MapWarningIconType.SurprisedPoop,
       bio: '獸醫師執業20年',
       reportCount: 0,
       isSuspended: false,
-      createdAt: new Date('2023-11-05'),
-      updatedAt: new Date('2023-11-05'),
-      commentCount: 67,
-      reportCount: 0
+      isDeleted: false,
+      createdAt: '2023-11-05T00:00:00.000Z',
+      updatedAt: '2023-11-05T00:00:00.000Z',
+      commentCount: 67
     }
   }
 ]
