@@ -10,7 +10,7 @@ export default function DashboardPage() {
           儀表板
         </h1>
         <p className="text-gray-600 dark:text-gray-400">
-          Pet Talk 系統管理概覽
+          PTalk 系統管理概覽
         </p>
       </div>
       

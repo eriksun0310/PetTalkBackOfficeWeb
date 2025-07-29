@@ -1,8 +1,8 @@
-# CLAUDE.md - Pet Talk 後台管理系統
+# CLAUDE.md - PTalk 後台管理系統
 
 ## 專案概述
 
-Pet Talk 後台管理系統是基於 Next.js 15 建構的管理平台，提供 Pet Talk App 的完整後台管理功能。
+PTalk 後台管理系統是一個現代化的寵物社群應用程式後台管理平台，基於 Next.js 15 建構。本系統為 PTalk App 提供完整的後台管理功能，包括用戶管理、內容審核、店家管理、通知推送等核心功能模組。
 
 ### 技術堆疊
 - **前端框架**: Next.js 15 (App Router)
@@ -316,7 +316,7 @@ NEXT_PUBLIC_APP_ENV=production
 
 ## 聯絡資訊
 
-- **專案維護者**: Pet Talk 開發團隊
+- **專案維護者**: PTalk 開發團隊
 - **技術支援**: dev@pettalk.com
 - **問題回報**: GitHub Issues
 - **文件版本**: v1.0.0

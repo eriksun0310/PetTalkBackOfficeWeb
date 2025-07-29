@@ -6,8 +6,8 @@ import { ThemeProvider } from '@/components/theme-provider'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Pet Talk 後台管理系統',
-  description: 'Pet Talk App 後台管理系統',
+  title: 'PTalk 後台管理系統',
+  description: 'PTalk App 後台管理系統',
 }
 
 export default function RootLayout({
