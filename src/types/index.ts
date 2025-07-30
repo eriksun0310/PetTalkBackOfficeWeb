@@ -267,6 +267,52 @@ export interface NotificationFilters {
   dateTo?: Date | string
 }
 
+// 通知發送日誌狀態
+export enum NotificationLogStatus {
+  Pending = 'pending',          // 待發送
+  Sending = 'sending',          // 發送中
+  Sent = 'sent',               // 已發送
+  Failed = 'failed',           // 發送失敗
+  Cancelled = 'cancelled',     // 已取消
+  Scheduled = 'scheduled'      // 已排程
+}
+
+// 通知發送日誌
+export interface NotificationLog {
+  id: string
+  title: string
+  subtitle?: string
+  type: NotificationType
+  recipientType: 'single' | 'multiple' | 'all'
+  recipientCount: number
+  recipientUserIds?: string[]  // 具體接收者ID列表
+  targetId?: string
+  payload?: any
+  status: NotificationLogStatus
+  scheduledAt?: Date | string  // 排程發送時間
+  sentAt?: Date | string       // 實際發送時間
+  completedAt?: Date | string  // 完成時間
+  failedReason?: string        // 失敗原因
+  successCount: number         // 成功發送數量
+  failedCount: number          // 失敗發送數量
+  createdAt: Date | string
+  createdBy: string            // 發送者（管理員）
+  createdByUser?: User         // 發送者資訊
+  notificationIds?: string[]   // 生成的通知ID列表
+}
+
+// 通知發送日誌篩選參數
+export interface NotificationLogFilters {
+  search?: string
+  type?: NotificationType
+  status?: NotificationLogStatus
+  recipientType?: 'single' | 'multiple' | 'all'
+  createdBy?: string
+  dateFrom?: Date | string
+  dateTo?: Date | string
+  scheduledOnly?: boolean  // 只顯示排程的
+}
+
 export interface SystemSettings {
   id: string
   category: string
