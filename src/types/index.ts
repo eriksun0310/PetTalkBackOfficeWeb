@@ -232,43 +232,39 @@ export interface Location {
   zipCode?: string
 }
 
+// 通知類型枚舉
+export enum NotificationType {
+  CommentNotification = 1,  // 評論通知
+  AnnouncementNotification = 2  // 公告通知
+}
+
+// 根據資料表結構定義的通知介面
 export interface Notification {
   id: string
+  recipientUserId: string
+  recipientUser?: User  // 關聯的接收者資訊
   title: string
-  content: string
+  subtitle?: string
   type: NotificationType
-  targetType: 'all' | 'users' | 'specific'
-  targetUsers?: string[]
-  targetUserCategories?: string[]
-  status: 'draft' | 'scheduled' | 'sent' | 'failed'
-  createdAt: Date
-  scheduledAt?: Date
-  sentAt?: Date
-  sentBy: string
-  recipients?: NotificationRecipient[]
-  readCount: number
-  deliveryStats?: DeliveryStats
+  targetId?: string  // 目標物件ID (如評論ID、店家ID等)
+  payload?: any  // JSON 格式的載荷資料
+  isRead: boolean
+  readAt?: Date | string
+  isDeleted: boolean
+  createdAt: Date | string
+  createdBy: string
+  updatedAt: Date | string
+  updatedBy: string
 }
 
-export type NotificationType = 
-  | 'system'
-  | 'promotion'
-  | 'announcement'
-  | 'reminder'
-  | 'warning'
-
-export interface NotificationRecipient {
-  userId: string
-  status: 'pending' | 'delivered' | 'read' | 'failed'
-  deliveredAt?: Date
-  readAt?: Date
-}
-
-export interface DeliveryStats {
-  total: number
-  delivered: number
-  read: number
-  failed: number
+// 通知篩選參數
+export interface NotificationFilters {
+  search?: string
+  type?: NotificationType
+  isRead?: boolean
+  recipientUserId?: string
+  dateFrom?: Date | string
+  dateTo?: Date | string
 }
 
 export interface SystemSettings {

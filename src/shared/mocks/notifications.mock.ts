@@ -1,0 +1,331 @@
+import { Notification, NotificationType, UserGenderType, PartnerType, MapWarningIconType, UserStatus } from '@/types'
+
+export const mockNotifications: Notification[] = [
+  {
+    id: 'notif-001',
+    recipientUserId: 'user-001',
+    recipientUser: {
+      id: 'user-001',
+      email: 'john.doe@example.com',
+      name: '王小明',
+      genderType: UserGenderType.Male,
+      partnerType: PartnerType.Dog,
+      mapWarningIconType: MapWarningIconType.AngryPoop,
+      status: UserStatus.Verified,
+      isDeleted: false,
+      createdAt: '2024-12-01T10:00:00Z',
+      updatedAt: '2024-12-15T14:30:00Z'
+    },
+    title: '您的評論收到新回覆',
+    subtitle: '店家已回覆您的評論',
+    type: NotificationType.CommentNotification,
+    targetId: 'comment-001',
+    payload: {
+      commentId: 'comment-001',
+      venueId: 'venue-001',
+      venueName: '寵物友善咖啡廳',
+      replyContent: '感謝您的評論，我們會持續改進服務品質！'
+    },
+    isRead: false,
+    readAt: undefined,
+    isDeleted: false,
+    createdAt: '2025-01-30T10:00:00Z',
+    createdBy: 'system',
+    updatedAt: '2025-01-30T10:00:00Z',
+    updatedBy: 'system'
+  },
+  {
+    id: 'notif-002',
+    recipientUserId: 'user-002',
+    recipientUser: {
+      id: 'user-002',
+      email: 'jane.smith@example.com',
+      name: '李小美',
+      genderType: UserGenderType.Female,
+      partnerType: PartnerType.Cat,
+      mapWarningIconType: MapWarningIconType.SurprisedPoop,
+      status: UserStatus.Verified,
+      isDeleted: false,
+      createdAt: '2024-11-15T08:00:00Z',
+      updatedAt: '2024-12-20T16:45:00Z'
+    },
+    title: '系統維護公告',
+    subtitle: '預計於明日凌晨進行系統維護',
+    type: NotificationType.AnnouncementNotification,
+    targetId: undefined,
+    payload: {
+      maintenanceTime: '2025-01-31T02:00:00Z',
+      duration: '2小時',
+      affectedServices: ['評論功能', '圖片上傳']
+    },
+    isRead: true,
+    readAt: '2025-01-30T12:00:00Z',
+    isDeleted: false,
+    createdAt: '2025-01-30T09:00:00Z',
+    createdBy: 'admin',
+    updatedAt: '2025-01-30T12:00:00Z',
+    updatedBy: 'system'
+  },
+  {
+    id: 'notif-003',
+    recipientUserId: 'user-003',
+    recipientUser: {
+      id: 'user-003',
+      email: 'bob.chen@example.com',
+      name: '陳大明',
+      genderType: UserGenderType.Male,
+      partnerType: PartnerType.Dog,
+      mapWarningIconType: MapWarningIconType.AngryPoop,
+      status: UserStatus.Verified,
+      isDeleted: false,
+      createdAt: '2024-10-20T12:00:00Z',
+      updatedAt: '2025-01-25T10:30:00Z'
+    },
+    title: '您的評論被檢舉',
+    subtitle: '請注意評論內容規範',
+    type: NotificationType.CommentNotification,
+    targetId: 'comment-002',
+    payload: {
+      commentId: 'comment-002',
+      reportReason: '不當言論',
+      reportedAt: '2025-01-29T15:30:00Z'
+    },
+    isRead: false,
+    readAt: undefined,
+    isDeleted: false,
+    createdAt: '2025-01-29T16:00:00Z',
+    createdBy: 'system',
+    updatedAt: '2025-01-29T16:00:00Z',
+    updatedBy: 'system'
+  },
+  {
+    id: 'notif-004',
+    recipientUserId: 'user-001',
+    recipientUser: {
+      id: 'user-001',
+      email: 'john.doe@example.com',
+      name: '王小明',
+      genderType: UserGenderType.Male,
+      partnerType: PartnerType.Dog,
+      mapWarningIconType: MapWarningIconType.AngryPoop,
+      status: UserStatus.Verified,
+      isDeleted: false,
+      createdAt: '2024-12-01T10:00:00Z',
+      updatedAt: '2024-12-15T14:30:00Z'
+    },
+    title: '新功能上線通知',
+    subtitle: 'PTalk 推出寵物健康管理功能',
+    type: NotificationType.AnnouncementNotification,
+    targetId: undefined,
+    payload: {
+      featureName: '寵物健康管理',
+      features: ['疫苗接種提醒', '健康記錄追蹤', '醫療紀錄管理'],
+      releaseDate: '2025-01-28T00:00:00Z'
+    },
+    isRead: true,
+    readAt: '2025-01-28T10:30:00Z',
+    isDeleted: false,
+    createdAt: '2025-01-28T08:00:00Z',
+    createdBy: 'admin',
+    updatedAt: '2025-01-28T10:30:00Z',
+    updatedBy: 'system'
+  },
+  {
+    id: 'notif-005',
+    recipientUserId: 'user-004',
+    recipientUser: {
+      id: 'user-004',
+      email: 'alice.wu@example.com',
+      name: '吳小華',
+      genderType: UserGenderType.Female,
+      partnerType: PartnerType.Cat,
+      mapWarningIconType: MapWarningIconType.SurprisedPoop,
+      status: UserStatus.Verified,
+      isDeleted: false,
+      createdAt: '2024-09-10T14:00:00Z',
+      updatedAt: '2025-01-20T11:20:00Z'
+    },
+    title: '您推薦的店家已通過審核',
+    subtitle: '寵物美容院已加入 PTalk',
+    type: NotificationType.CommentNotification,
+    targetId: 'venue-003',
+    payload: {
+      venueId: 'venue-003',
+      venueName: '毛小孩美容院',
+      approvedAt: '2025-01-27T14:00:00Z'
+    },
+    isRead: false,
+    readAt: undefined,
+    isDeleted: false,
+    createdAt: '2025-01-27T14:30:00Z',
+    createdBy: 'system',
+    updatedAt: '2025-01-27T14:30:00Z',
+    updatedBy: 'system'
+  },
+  {
+    id: 'notif-006',
+    recipientUserId: 'user-005',
+    recipientUser: {
+      id: 'user-005',
+      email: 'peter.lin@example.com',
+      name: '林彼得',
+      genderType: UserGenderType.Male,
+      partnerType: PartnerType.Dog,
+      mapWarningIconType: MapWarningIconType.AngryPoop,
+      status: UserStatus.Verified,
+      isDeleted: false,
+      createdAt: '2024-08-05T09:00:00Z',
+      updatedAt: '2025-01-15T13:45:00Z'
+    },
+    title: '重要安全更新',
+    subtitle: '請更新您的密碼以確保帳號安全',
+    type: NotificationType.AnnouncementNotification,
+    targetId: undefined,
+    payload: {
+      reason: '系統安全性升級',
+      deadline: '2025-02-15T23:59:59Z',
+      instructions: '請前往個人設定頁面更新密碼'
+    },
+    isRead: true,
+    readAt: '2025-01-26T09:15:00Z',
+    isDeleted: false,
+    createdAt: '2025-01-26T08:00:00Z',
+    createdBy: 'security-team',
+    updatedAt: '2025-01-26T09:15:00Z',
+    updatedBy: 'system'
+  },
+  {
+    id: 'notif-007',
+    recipientUserId: 'user-002',
+    recipientUser: {
+      id: 'user-002',
+      email: 'jane.smith@example.com',
+      name: '李小美',
+      genderType: UserGenderType.Female,
+      partnerType: PartnerType.Cat,
+      mapWarningIconType: MapWarningIconType.SurprisedPoop,
+      status: UserStatus.Verified,
+      isDeleted: false,
+      createdAt: '2024-11-15T08:00:00Z',
+      updatedAt: '2024-12-20T16:45:00Z'
+    },
+    title: '您的評論獲得熱門推薦',
+    subtitle: '恭喜！您的評論被選為本週精選',
+    type: NotificationType.CommentNotification,
+    targetId: 'comment-003',
+    payload: {
+      commentId: 'comment-003',
+      venueId: 'venue-002',
+      venueName: '貓咪餐廳',
+      likes: 156,
+      views: 1024
+    },
+    isRead: false,
+    readAt: undefined,
+    isDeleted: false,
+    createdAt: '2025-01-25T10:00:00Z',
+    createdBy: 'system',
+    updatedAt: '2025-01-25T10:00:00Z',
+    updatedBy: 'system'
+  },
+  {
+    id: 'notif-008',
+    recipientUserId: 'user-006',
+    recipientUser: {
+      id: 'user-006',
+      email: 'emma.huang@example.com',
+      name: '黃艾瑪',
+      genderType: UserGenderType.Female,
+      partnerType: PartnerType.Dog,
+      mapWarningIconType: MapWarningIconType.SurprisedPoop,
+      status: UserStatus.Verified,
+      isDeleted: false,
+      createdAt: '2024-07-01T11:00:00Z',
+      updatedAt: '2025-01-10T09:30:00Z'
+    },
+    title: 'PTalk 週年慶活動',
+    subtitle: '參加活動贏取豐富獎品',
+    type: NotificationType.AnnouncementNotification,
+    targetId: undefined,
+    payload: {
+      eventName: 'PTalk 三週年慶',
+      startDate: '2025-02-01T00:00:00Z',
+      endDate: '2025-02-28T23:59:59Z',
+      prizes: ['寵物用品禮券', '免費健檢券', 'PTalk 限定周邊']
+    },
+    isRead: false,
+    readAt: undefined,
+    isDeleted: false,
+    createdAt: '2025-01-24T14:00:00Z',
+    createdBy: 'marketing',
+    updatedAt: '2025-01-24T14:00:00Z',
+    updatedBy: 'marketing'
+  },
+  {
+    id: 'notif-009',
+    recipientUserId: 'user-003',
+    recipientUser: {
+      id: 'user-003',
+      email: 'bob.chen@example.com',
+      name: '陳大明',
+      genderType: UserGenderType.Male,
+      partnerType: PartnerType.Dog,
+      mapWarningIconType: MapWarningIconType.AngryPoop,
+      status: UserStatus.Verified,
+      isDeleted: false,
+      createdAt: '2024-10-20T12:00:00Z',
+      updatedAt: '2025-01-25T10:30:00Z'
+    },
+    title: '評論違規警告',
+    subtitle: '您的評論已被移除',
+    type: NotificationType.CommentNotification,
+    targetId: 'comment-004',
+    payload: {
+      commentId: 'comment-004',
+      violationType: '垃圾訊息',
+      removedAt: '2025-01-23T16:45:00Z',
+      warningLevel: 1
+    },
+    isRead: true,
+    readAt: '2025-01-23T18:00:00Z',
+    isDeleted: false,
+    createdAt: '2025-01-23T17:00:00Z',
+    createdBy: 'moderation-team',
+    updatedAt: '2025-01-23T18:00:00Z',
+    updatedBy: 'system'
+  },
+  {
+    id: 'notif-010',
+    recipientUserId: 'user-007',
+    recipientUser: {
+      id: 'user-007',
+      email: 'david.zhang@example.com',
+      name: '張大衛',
+      genderType: UserGenderType.Male,
+      partnerType: PartnerType.Cat,
+      mapWarningIconType: MapWarningIconType.AngryPoop,
+      status: UserStatus.Verified,
+      isDeleted: false,
+      createdAt: '2024-06-15T10:00:00Z',
+      updatedAt: '2025-01-05T14:20:00Z'
+    },
+    title: '新店家推薦',
+    subtitle: '您附近有新的寵物友善店家',
+    type: NotificationType.AnnouncementNotification,
+    targetId: 'venue-004',
+    payload: {
+      venueId: 'venue-004',
+      venueName: '汪喵寵物旅館',
+      distance: '1.2公里',
+      category: '寵物旅館',
+      rating: 4.8
+    },
+    isRead: false,
+    readAt: undefined,
+    isDeleted: false,
+    createdAt: '2025-01-22T11:30:00Z',
+    createdBy: 'recommendation-engine',
+    updatedAt: '2025-01-22T11:30:00Z',
+    updatedBy: 'recommendation-engine'
+  }
+]

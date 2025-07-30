@@ -13,7 +13,7 @@ export default function NotificationsPage() {
             通知管理
           </h1>
           <p className="text-gray-600 dark:text-gray-400">
-            管理系統通知和推播
+            查看和管理所有系統通知
           </p>
         </div>
         <Link href="/notifications/send">

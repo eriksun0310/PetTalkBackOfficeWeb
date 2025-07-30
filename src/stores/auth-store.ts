@@ -31,6 +31,7 @@ const rolePermissions: Record<UserRole, string[]> = {
     'shops.write',
     'shops.delete',
     'shops.approve',
+    'notifications.read',
     'notifications.send',
     'settings.manage',
     'admins.manage',
@@ -43,6 +44,7 @@ const rolePermissions: Record<UserRole, string[]> = {
     'shops.read',
     'shops.write',
     'shops.approve',
+    'notifications.read',
     'notifications.send',
     'settings.read',
   ],
@@ -51,6 +53,7 @@ const rolePermissions: Record<UserRole, string[]> = {
     'comments.read',
     'comments.moderate',
     'shops.read',
+    'notifications.read',
   ],
 }
 
